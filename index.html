@@ -1,0 +1,85 @@
+<!doctype html>
+<html style="color: black; width: 400px; height: 200px; border-style: solid;">
+
+<head>
+    <title>Snapmaker A350 Cost Calculator</title>
+</head>
+
+<body style="font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif; font-size: 12px;">
+    <div>
+        <h2>Snapmaker A350 3D Printing Cost Calculator</h2>
+        <label for="filament">Filament (g): </label>
+        <input onchange="calculate()" type="text" id="filament"><br><br>
+        <label for="ptime">Print Time (h): </label>
+        <input onchange="calculate()" type="text" id="ptime"><br><br>
+        <label>Total Cost ($): </label>
+        <label id="cost"></label><br><br>
+        <div class="tooltip">Filament/Electricity Rates
+            <span class="tooltiptext">
+                <label for="filcost">Filament ($ @1kg)</label>
+                <input style="width: 108px" onchange="calculate()" type="text" id="filcost"><br><br>
+                <label for="eleccost">Electricity ($ @1kWh)</label>
+                <input style="width: 108px" onchange="calculate()" type="text" id="eleccost"><br><br>
+            </span>
+        </div> |
+        <div class="tooltip">Accuracy
+            <span class="tooltiptext">
+                <label for="accuracy">Decimal Places</label>
+                <input style="width: 108px" onchange="calculate()" type="text" id="accuracy"><br><br>
+            </span>
+        </div>
+
+    </div>
+
+    <style>
+        .tooltip {
+            position: relative;
+            display: inline-block;
+            border-bottom: 1px dotted black;
+        }
+
+        .tooltip .tooltiptext {
+            visibility: hidden;
+            width: 120px;
+            background-color: black;
+            color: #fff;
+            text-align: center;
+            border-radius: 6px;
+            padding: 5px 0;
+            position: absolute;
+            z-index: 1;
+            top: 150%;
+            left: 50%;
+            margin-left: -60px;
+        }
+
+        .tooltip .tooltiptext::after {
+            content: "";
+            position: absolute;
+            bottom: 100%;
+            left: 50%;
+            margin-left: -5px;
+            border-width: 5px;
+            border-style: solid;
+            border-color: transparent transparent black transparent;
+        }
+
+        .tooltip:hover .tooltiptext {
+            visibility: visible;
+        }
+    </style>
+
+    <script>
+        function calculate() {
+            var filament = document.getElementById("filament").value;
+            var accuracy = document.getElementById("accuracy").value;
+            var ptime = document.getElementById("ptime").value;
+            var filcost = document.getElementById("filcost").value / 1000; // Cents per gram
+            var eleccost = document.getElementById("eleccost").value * 0.29; // Cents per hour
+            var cost = (Number(ptime) * Number(eleccost)) + (Number(filament) * Number(filcost));
+            document.getElementById("cost").innerHTML = (Math.floor(cost * 100) / 100).toFixed(Number(accuracy));
+        }
+    </script>
+</body>
+
+</html>
